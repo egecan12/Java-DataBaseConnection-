@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
 
@@ -33,7 +34,7 @@ public class Main {
         Truck truck2 = new Truck("dodge",2010,2,"red");
 
 
-        System.out.println(truck1);
+
 
         try{
 
@@ -41,6 +42,40 @@ public class Main {
         Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/java_db", "root","");
             System.out.println("baglanti basarili");
 
+
+
+            Scanner input = new Scanner(System.in);
+            System.out.println("Enter Car brand: ");
+            String carBrand = input.nextLine();
+            System.out.println("Enter Car model: ");
+            int carModel = input.nextInt();
+            input.nextLine();   //why ????
+            System.out.println("Enter Car door number: ");
+            int carDoor = input.nextInt();
+            input.nextLine();   //why ????
+
+            System.out.println(carBrand+" "+carModel+" "+carDoor);
+
+            System.out.printf("first value is '%s', next value is " +
+                            "'%d', last value is '%d'%n",
+                    carBrand, carModel, carDoor);
+
+            Statement statement = connection.createStatement();
+
+            String sql = String.format("INSERT INTO `cars` " +
+                            "(`brand`,`model`, `door`) " +
+                            "VALUES ('%s', %d, %d)",
+                    carBrand, carModel, carDoor);
+
+            System.out.println(sql);// to see the query
+
+            int numRowsAffected = statement.executeUpdate(sql);
+
+            System.out.println("Number of rows affected = " + numRowsAffected);  // to see how many rows has been effected
+
+
+
+            connection.close();
 
         }
 
